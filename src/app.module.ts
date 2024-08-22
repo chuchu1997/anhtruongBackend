@@ -1,0 +1,44 @@
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { ProductModule } from './product/product.module';
+import { CategoryModule } from './category/category.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+
+import { MongooseModule } from '@nestjs/mongoose';
+import { ImageModule } from './image/image.module';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './auth/constant';
+import { APP_GUARD } from '@nestjs/core';
+import { AdminGuard } from './auth/admin.guard';
+import { OrderModule } from './order/order.module';
+import { ConfigModule } from '@nestjs/config';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env', // Path to the .env file
+      isGlobal: true, // Make config globally available
+    }),
+    JwtModule.register({
+      secret: jwtConstants.secret,
+    }),
+    MongooseModule.forRoot('mongodb://localhost:27017/anhtruong'),
+    ProductModule,
+    CategoryModule,
+    AuthModule,
+    UsersModule,
+    ImageModule,
+    OrderModule,
+  ],
+  controllers: [AppController],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: AdminGuard,
+    },
+  ],
+})
+export class AppModule {}
