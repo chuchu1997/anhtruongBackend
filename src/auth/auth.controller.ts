@@ -18,6 +18,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto) {
+    console.log('SIGNIN ', signInDto);
     return this.authService.signIn(signInDto.username, signInDto.password);
   }
 

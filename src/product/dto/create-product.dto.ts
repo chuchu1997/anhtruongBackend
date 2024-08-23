@@ -7,7 +7,7 @@ export class CreateProductDto {
   title: string;
   description: string;
   categoryID: string;
-  imagesObject: productImages[];
+  imagesObject?: productImages[];
   price: string;
   hashtag: Array<string>;
 }
