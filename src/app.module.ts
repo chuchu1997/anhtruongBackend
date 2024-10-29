@@ -24,7 +24,7 @@ import { ConfigModule } from '@nestjs/config';
     JwtModule.register({
       secret: jwtConstants.secret,
     }),
-    MongooseModule.forRoot('mongodb://localhost:27017/anhtruong'),
+    MongooseModule.forRoot('mongodb://localhost:27017/giadunghiendai'),
     ProductModule,
     CategoryModule,
     AuthModule,
