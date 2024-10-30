@@ -18,6 +18,10 @@ export class Product {
   @Prop()
   price: string;
   @Prop()
-  hashtag: Array<string>;
+  hashtag?: Array<string>;
+  @Prop()
+  amount: number;
+  @Prop()
+  dropshipFrom: number;
 }
 export const ProductSchema = SchemaFactory.createForClass(Product);

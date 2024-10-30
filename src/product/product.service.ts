@@ -22,7 +22,8 @@ export class ProductService {
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
     try {
-      console.log('CREATE IAMGE', createProductDto.imagesObject.length);
+      console.log('CREATE IAMGE', createProductDto);
+
       // createProductDto.id =
       const createdProduct = new this.productModelMongoDB(createProductDto);
       return createdProduct.save();

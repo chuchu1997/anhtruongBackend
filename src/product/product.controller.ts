@@ -70,6 +70,7 @@ export class ProductController {
     @UploadedFiles() files: { images?: Express.Multer.File[] },
   ) {
     let mapImagesObject: productImages[] = [];
+
     files.images.forEach((image) => {
       mapImagesObject.push({
         id: image.filename.split('.')[0],
