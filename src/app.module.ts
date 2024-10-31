@@ -14,6 +14,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AdminGuard } from './auth/admin.guard';
 import { OrderModule } from './order/order.module';
 import { ConfigModule } from '@nestjs/config';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ConfigModule } from '@nestjs/config';
     UsersModule,
     ImageModule,
     OrderModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [
