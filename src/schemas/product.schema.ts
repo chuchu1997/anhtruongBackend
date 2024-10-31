@@ -5,7 +5,7 @@ import { HydratedDocument } from 'mongoose';
 export type ProductDocument = HydratedDocument<Product>;
 @Schema({ versionKey: false })
 export class Product {
-  @Prop({ unique: true })
+  @Prop()
   id: string;
   @Prop({ unique: true, required: true })
   title: string;

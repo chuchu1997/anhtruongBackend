@@ -88,7 +88,6 @@ export class ProductController {
 
     return await this.productService.create({
       ...createProductDto,
-      id: uuidv4(),
       imagesObject: mapImagesObject,
     });
   }
