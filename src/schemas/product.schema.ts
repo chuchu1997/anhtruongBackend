@@ -22,6 +22,6 @@ export class Product {
   @Prop()
   amount: number;
   @Prop()
-  dropshipFrom: number;
+  dropshipFrom: string;
 }
 export const ProductSchema = SchemaFactory.createForClass(Product);

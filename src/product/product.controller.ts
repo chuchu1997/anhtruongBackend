@@ -34,10 +34,18 @@ export class ProductController {
   @Public()
   @Get()
   async findAllProducts(@Res() response, @Query() query) {
-    let fontPage: number = query.currentPage || 1;
-    let product = await this.productService.fetchAllProducts();
-
+    let pageNumber: number = query.currentPage || 1;
+    let product = await this.productService.fetchAllProducts(pageNumber);
     return response.status(HttpStatus.OK).json({ products: product });
+  }
+
+  @Public()
+  @Get('/total-count')
+  async getAllProductCount(@Res() response, @Query() query) {
+    let totalCount = await this.productService.getAllProductCount();
+    // let pageNumber: number = query.currentPage || 1;
+    // let product = await this.productService.fetchAllProducts(pageNumber);
+    return response.status(HttpStatus.OK).json({ totalCount: totalCount });
   }
 
   //CREATE NEW PRODUCT

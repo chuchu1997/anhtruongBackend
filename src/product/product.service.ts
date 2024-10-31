@@ -16,8 +16,20 @@ export class ProductService {
     @InjectModel(Product.name) private productModelMongoDB: Model<Product>,
   ) {}
 
-  async fetchAllProducts() {
-    return this.productModelMongoDB.find().exec();
+  async fetchAllProducts(currentPageNumber: any) {
+    // MyModel.find(query, fields, { skip: 10, limit: 5 }, function(err, results) { ... });
+    const itemsPerPage = 6;
+    const skip = (currentPageNumber - 1) * itemsPerPage;
+
+    return this.productModelMongoDB
+      .find()
+      .sort({ price: 1 })
+      .skip(skip)
+      .limit(itemsPerPage)
+      .exec();
+  }
+  async getAllProductCount() {
+    return this.productModelMongoDB.countDocuments();
   }
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
