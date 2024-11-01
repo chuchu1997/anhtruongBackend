@@ -21,17 +21,23 @@ export class ProductService {
     const itemsPerPage = 6;
     const skip = (currentPageNumber - 1) * itemsPerPage;
 
-    return this.productModelMongoDB
-      .find()
-      .sort({ price: 1 })
-      .skip(skip)
-      .limit(itemsPerPage)
-      .exec();
+    return (
+      this.productModelMongoDB
+        .find()
+        // .sort({ price: 1 })
+        .skip(skip)
+        .limit(itemsPerPage)
+        .exec()
+    );
   }
   async getAllProductCount() {
     return this.productModelMongoDB.countDocuments();
   }
-
+  async findAllProductContainCategoryWithName(name: string) {
+    return this.productModelMongoDB
+      .find()
+      .populate({ path: 'category', select: 'name', match: { name: name } });
+  }
   async create(createProductDto: CreateProductDto): Promise<Product> {
     try {
       console.log('CREATE IAMGE', createProductDto);

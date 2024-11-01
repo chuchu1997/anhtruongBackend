@@ -12,6 +12,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { Product, ProductSchema } from 'src/schemas/product.schema';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { Category, CategorySchema } from 'src/schemas/category.schema';
 
 @Module({
   imports: [
@@ -21,7 +22,10 @@ import { diskStorage } from 'multer';
       secret: jwtConstants.secret,
     }),
 
-    MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
+    MongooseModule.forFeature([
+      { name: Product.name, schema: ProductSchema },
+      { name: Category.name, schema: CategorySchema },
+    ]),
   ],
   controllers: [ProductController],
   providers: [ProductService, AuthService],

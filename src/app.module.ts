@@ -25,7 +25,7 @@ import { SearchModule } from './search/search.module';
     JwtModule.register({
       secret: jwtConstants.secret,
     }),
-    MongooseModule.forRoot('mongodb://localhost:27017/giadunghiendai'),
+    MongooseModule.forRoot('mongodb://127.0.0.1:27017/giadunghiendai'),
     ProductModule,
     CategoryModule,
     AuthModule,
