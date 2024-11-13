@@ -15,6 +15,7 @@ import { AdminGuard } from './auth/admin.guard';
 import { OrderModule } from './order/order.module';
 import { ConfigModule } from '@nestjs/config';
 import { SearchModule } from './search/search.module';
+import { LayoutModule } from './layout/layout.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { SearchModule } from './search/search.module';
     ImageModule,
     OrderModule,
     SearchModule,
+    LayoutModule,
   ],
   controllers: [AppController],
   providers: [

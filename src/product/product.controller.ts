@@ -47,6 +47,16 @@ export class ProductController {
     // let product = await this.productService.fetchAllProducts(pageNumber);
     return response.status(HttpStatus.OK).json({ totalCount: totalCount });
   }
+  @Public()
+  @Get('/category')
+  async fetchProductWithCategory(@Res() response, @Query() query) {
+    // let totalCount = await this.productService.getAllProductCount();
+    // let pageNumber: number = query.currentPage || 1;
+    // let product = await this.productService.fetchAllProducts(pageNumber);
+    return response.status(HttpStatus.OK).json({});
+
+    // return response.status(HttpStatus.OK).json({ totalCount: totalCount });
+  }
 
   //CREATE NEW PRODUCT
   //JUST ADMIN ACCESS
