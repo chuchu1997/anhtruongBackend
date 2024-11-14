@@ -56,6 +56,7 @@ export class ProductService {
     // createProductDto.id =
 
     let product = await this.productModelMongoDB.findById(id);
+
     console.log('update ', updateProductDto.imagesObject.length);
     console.log('IMAGE PATH ', product.imagesObject);
 

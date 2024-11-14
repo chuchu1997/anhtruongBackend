@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UploadedFile,
   BadRequestException,
+  UploadedFiles,
 } from '@nestjs/common';
 import { LayoutService } from './layout.service';
 import { CreateLayoutDto } from './dto/create-layout.dto';
@@ -19,7 +20,8 @@ import {
   FileInterceptor,
 } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-
+import { createBannerDto } from './dto/create-banner.dto';
+import { randomUUID } from 'crypto';
 @Controller('layout')
 export class LayoutController {
   constructor(private readonly layoutService: LayoutService) {}
@@ -67,9 +69,24 @@ export class LayoutController {
   @Public()
   @Get('/trang-chu/banners')
   getBannerTrangChu() {
-    return 'http://localhost:5000/image/logo.jpg';
+    return this.layoutService.getBanners();
   }
 
+  @Public()
+  @Post('/trang-chu/banners')
+  async createBanner(@Body() createBannerDto: createBannerDto[]) {
+    return this.layoutService.createBanner(createBannerDto);
+  }
+  @Public()
+  @Patch('/trang-chu/banners')
+  async updateBanner(@Param('id') id: string) {
+    console.log('STRING ', id);
+  }
+  @Public()
+  @Delete(':id')
+  deleteBanner(@Param('id') id: string) {
+    console.log('CALL');
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.layoutService.findOne(+id);
@@ -84,7 +101,4 @@ export class LayoutController {
   remove(@Param('id') id: string) {
     return this.layoutService.remove(+id);
   }
-}
-function uuidv4() {
-  throw new Error('Function not implemented.');
 }
