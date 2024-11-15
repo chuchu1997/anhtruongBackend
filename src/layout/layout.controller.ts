@@ -20,8 +20,9 @@ import {
   FileInterceptor,
 } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { createBannerDto } from './dto/create-banner.dto';
+import { CreateBannerDto } from './dto/create-banner.dto';
 import { randomUUID } from 'crypto';
+import { UpdateBannerDto } from './dto/update-banner.dto';
 @Controller('layout')
 export class LayoutController {
   constructor(private readonly layoutService: LayoutService) {}
@@ -71,16 +72,19 @@ export class LayoutController {
   getBannerTrangChu() {
     return this.layoutService.getBanners();
   }
-
   @Public()
   @Post('/trang-chu/banners')
-  async createBanner(@Body() createBannerDto: createBannerDto[]) {
+  async createBanner(@Body() createBannerDto: CreateBannerDto[]) {
     return this.layoutService.createBanner(createBannerDto);
   }
   @Public()
-  @Patch('/trang-chu/banners')
-  async updateBanner(@Param('id') id: string) {
+  @Patch('/trang-chu/banners/:id')
+  async updateBanner(
+    @Param('id') id: string,
+    @Body() updateBannerDto: UpdateBannerDto,
+  ) {
     console.log('STRING ', id);
+    console.log('UPDATE', updateBannerDto);
   }
   @Public()
   @Delete(':id')
