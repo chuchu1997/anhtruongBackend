@@ -74,22 +74,68 @@ export class LayoutController {
   }
   @Public()
   @Post('/trang-chu/banners')
-  async createBanner(@Body() createBannerDto: CreateBannerDto[]) {
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, callback) => {
+          const filename = randomUUID();
+          const extension = '.webp';
+          callback(null, `${filename}${extension}`);
+        },
+      }),
+      limits: {
+        fileSize: 5 * 1024 * 1024, // 5 MB limit
+      },
+    }),
+  )
+  async createBanner(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() createBannerDto: CreateBannerDto,
+  ) {
+    if (file) {
+      let newPath = file.path.split('\\').pop();
+      createBannerDto.imagePath = process.env.HOST + '/image/' + newPath;
+    }
     return this.layoutService.createBanner(createBannerDto);
+    // return this.layoutService.createBanner(createBannerDto);
   }
   @Public()
   @Patch('/trang-chu/banners/:id')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, callback) => {
+          const filename = randomUUID();
+          const extension = '.webp';
+          callback(null, `${filename}${extension}`);
+        },
+      }),
+      limits: {
+        fileSize: 5 * 1024 * 1024, // 5 MB limit
+      },
+    }),
+  )
   async updateBanner(
+    @UploadedFile() file: Express.Multer.File,
     @Param('id') id: string,
     @Body() updateBannerDto: UpdateBannerDto,
   ) {
-    console.log('STRING ', id);
-    console.log('UPDATE', updateBannerDto);
+    if (file) {
+      let oldFileName = updateBannerDto.imagePath.split('/').pop();
+
+      await this.layoutService.removeImageFromLocalFile(oldFileName);
+      let newPathImage = file.path.split('\\').pop();
+      updateBannerDto.imagePath = process.env.HOST + '/image/' + newPathImage;
+    }
+
+    this.layoutService.updateBanner(updateBannerDto);
   }
   @Public()
-  @Delete(':id')
+  @Delete('/trang-chu/banners/:id')
   deleteBanner(@Param('id') id: string) {
-    console.log('CALL');
+    return this.layoutService.deleteBanner(id);
   }
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -5,8 +5,6 @@ import { HydratedDocument, Types } from 'mongoose';
 export type BannerDocument = HydratedDocument<Banner>;
 @Schema({ versionKey: false })
 export class Banner {
-  @Prop({ trim: true, unique: true })
-  id: string;
   @Prop({ trim: true })
   title?: string;
   @Prop({ trim: true })

@@ -8,31 +8,43 @@ import { Model } from 'mongoose';
 import { Banner } from 'src/schemas/banner.schema';
 import { CreateBannerDto } from './dto/create-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
+import * as path from 'path';
+import * as fs from 'fs';
 @Injectable()
 export class LayoutService {
   constructor(
-    @InjectModel(Banner.name) private imageBannerObject: Model<Banner>,
+    @InjectModel(Banner.name) private imageBannerObjectModel: Model<Banner>,
   ) {}
   create(createLayoutDto: CreateLayoutDto) {
     return 'This action adds a new layout';
   }
   async getBanners() {
-    return await this.imageBannerObject.find().exec();
+    return await this.imageBannerObjectModel.find().exec();
   }
-  async createBanner(createBannerDto: CreateBannerDto[]) {
-    createBannerDto.map((item) => {
-      new this.imageBannerObject(item).save();
-    });
-    return 'IS OK';
-    // return await new this.imageBannerObject(createBannerDto).save();
+  async createBanner(createBannerDto: CreateBannerDto) {
+    console.log('CREATE BANNER DTO', createBannerDto);
+    return await new this.imageBannerObjectModel({ ...createBannerDto }).save();
+  }
+  async removeImageFromLocalFile(filename: string) {
+    const filepath = `./uploads/${filename}`;
+    const absolutePath = path.resolve(filepath);
+    fs.unlinkSync(absolutePath);
+  }
+  async deleteBanner(id: string) {
+    let object = await this.imageBannerObjectModel.findById(id).exec();
+    if (object) {
+      let filename = object.imagePath.split('/').pop();
+      await this.removeImageFromLocalFile(filename);
+      return await this.imageBannerObjectModel.findByIdAndDelete(id).exec();
+    }
+
+    // await this.imageBannerObjectModel.findByIdAndDelete(id).exec();
   }
   async updateBanner(updateBannerDto: UpdateBannerDto) {
-    //CHECK IF CHANGE IMAGE REMOVE OLD IMAGE AND UPDATE
-    //IF NOT CHANGE IMAGE JUST UPDATE !!!
-    // return await this.imageBannerObject.findByIdAndUpdate(
-    //   updateBannerDto._id,
-    //   updateBannerDto,
-    // );
+    console.log('UPDATE', updateBannerDto);
+    return await this.imageBannerObjectModel
+      .findByIdAndUpdate(updateBannerDto._id, { ...updateBannerDto })
+      .exec();
   }
   findAll() {
     return `This action returns all layout`;
