@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from 'src/auth/constant';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BannerSchema, Banner } from 'src/schemas/banner.schema';
+import { Section01, Section01Schema } from 'src/schemas/section01.schema';
 
 @Module({
   imports: [
@@ -15,7 +16,10 @@ import { BannerSchema, Banner } from 'src/schemas/banner.schema';
     // JwtModule.register({
     //   secret: jwtConstants.secret,
     // }),
-    MongooseModule.forFeature([{ name: Banner.name, schema: BannerSchema }]),
+    MongooseModule.forFeature([
+      { name: Banner.name, schema: BannerSchema },
+      { name: Section01.name, schema: Section01Schema },
+    ]),
   ],
   controllers: [LayoutController],
   providers: [LayoutService],

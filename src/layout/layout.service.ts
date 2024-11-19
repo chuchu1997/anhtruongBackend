@@ -10,10 +10,12 @@ import { CreateBannerDto } from './dto/create-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
 import * as path from 'path';
 import * as fs from 'fs';
+import { Section01 } from 'src/schemas/section01.schema';
 @Injectable()
 export class LayoutService {
   constructor(
     @InjectModel(Banner.name) private imageBannerObjectModel: Model<Banner>,
+    @InjectModel(Section01.name) private Section01Model: Model<Section01>,
   ) {}
   create(createLayoutDto: CreateLayoutDto) {
     return 'This action adds a new layout';
@@ -46,19 +48,9 @@ export class LayoutService {
       .findByIdAndUpdate(updateBannerDto._id, { ...updateBannerDto })
       .exec();
   }
-  findAll() {
-    return `This action returns all layout`;
-  }
 
-  findOne(id: number) {
-    return `This action returns a #${id} layout`;
-  }
-
-  update(id: number, updateLayoutDto: UpdateLayoutDto) {
-    return `This action updates a #${id} layout`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} layout`;
+  /// HANDLE FOR SECTION 01 ;
+  async getSection01Layout() {
+    return await this.Section01Model.findOne({}).exec();
   }
 }

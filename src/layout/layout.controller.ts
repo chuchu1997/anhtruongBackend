@@ -32,11 +32,6 @@ export class LayoutController {
     return this.layoutService.create(createLayoutDto);
   }
 
-  @Get()
-  findAll() {
-    return this.layoutService.findAll();
-  }
-
   @Public()
   @Get('/logo')
   getLogo() {
@@ -137,18 +132,10 @@ export class LayoutController {
   deleteBanner(@Param('id') id: string) {
     return this.layoutService.deleteBanner(id);
   }
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.layoutService.findOne(+id);
-  }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLayoutDto: UpdateLayoutDto) {
-    return this.layoutService.update(+id, updateLayoutDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.layoutService.remove(+id);
+  @Public()
+  @Get('/trang-chu/section01')
+  getSection01Layout() {
+    return this.layoutService.getSection01Layout();
   }
 }
